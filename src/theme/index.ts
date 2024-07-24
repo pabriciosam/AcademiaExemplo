@@ -1,10 +1,11 @@
-import { useStyled } from "@gluestack-style/react";
-
 export const THEME =({
   colors: {
     green: {
       700: '#00875F',
       500: '#00B37E',
+    },
+    blue: {
+      100: '#ADDBFF'
     },
     gray: {
       700: '#121214',
