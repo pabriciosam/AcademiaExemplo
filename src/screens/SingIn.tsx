@@ -1,16 +1,28 @@
+import { useNavigation } from '@react-navigation/native';
 import { Center, Heading, ScrollView, Text, VStack } from '@gluestack-ui/themed';
-import BackgroundImg from '@assets/background2x.png';
-import { Image } from 'react-native';
+
+import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
+
 import LogoSVG from '@assets/logo.svg';
+import BackgroundImg from '@assets/background2x.png';
+
+import { Image } from 'react-native';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
 export function SingIn(){
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
+
+  function handleNewAccount(){
+    navigation.navigate('singUp');
+  }
+
   return(
     <ScrollView contentContainerStyle={{ flexGrow:1 }} showsVerticalScrollIndicator={false}>
-      <VStack flex={1} bg='$trueGray700' paddingHorizontal={20} pb={32}>
+      <VStack flex={1} paddingHorizontal={20} pb={32}>
         <Image
           source={BackgroundImg}
+          defaultSource={BackgroundImg}
           alt='Imagem Background'
           resizeMode='contain'
           position='absolute'
@@ -53,7 +65,9 @@ export function SingIn(){
           <Button
             title='Criar conta'
             variant='outline'
-          ></Button>
+            onPress={handleNewAccount}
+          >
+          </Button>
         </Center>
       </VStack>
     </ScrollView>

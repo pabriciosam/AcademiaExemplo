@@ -4,13 +4,21 @@ import { Image } from 'react-native';
 import LogoSVG from '@assets/logo.svg';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 export function SingUp(){
+  const navigation = useNavigation();
+
+  function handleGoBack(){
+    navigation.goBack();
+  }
+
   return(
     <ScrollView contentContainerStyle={{ flexGrow:1 }} showsVerticalScrollIndicator={false}>
-      <VStack flex={1} bg='$trueGray700' paddingHorizontal={20} pb={32}>
+      <VStack flex={1} paddingHorizontal={20} pb={32}>
         <Image
           source={BackgroundImg}
+          defaultSource={BackgroundImg}
           alt='Imagem Background'
           resizeMode='contain'
           position='absolute'
@@ -50,6 +58,7 @@ export function SingUp(){
           title='Voltar para o login'
           variant='outline'
           mt={124}
+          onPress={handleGoBack}
         />
       </VStack>
     </ScrollView>

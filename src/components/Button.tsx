@@ -4,9 +4,10 @@ type Props = {
   title: string;
   variant?: "outline" | "solid";
   mt?:number;
+  onPress?: () => void
 }
 
-export function Button({title, variant = 'solid', mt}:Props){
+export function Button({title, variant = 'solid', mt, onPress}:Props){
   return(
     <GluestackButton
       w={"$full"}
@@ -19,6 +20,7 @@ export function Button({title, variant = 'solid', mt}:Props){
       variant={variant}
       isDisabled={false}
       isFocusVisible={false}
+      onPress={onPress}
     >
       <ButtonText
         color={variant === "outline" ? "$green500" : "$white"}
