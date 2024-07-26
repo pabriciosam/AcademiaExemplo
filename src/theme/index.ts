@@ -33,6 +33,7 @@ export const THEME =({
     xl: 20,
   },
   sizes: {
+    10: 28,
     14: 56,
     33: 148
   }

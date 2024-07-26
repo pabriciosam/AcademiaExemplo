@@ -1,12 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
-import { Center, Heading, ScrollView, Text, VStack } from '@gluestack-ui/themed';
+import { Center, Heading, ScrollView, Text, VStack, Image } from '@gluestack-ui/themed';
 
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
 
 import LogoSVG from '@assets/logo.svg';
-import BackgroundImg from '@assets/background2x.png';
+import BackgroundImg from '@assets/background.png';
 
-import { Image } from 'react-native';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
@@ -19,56 +18,55 @@ export function SingIn(){
 
   return(
     <ScrollView contentContainerStyle={{ flexGrow:1 }} showsVerticalScrollIndicator={false}>
-      <VStack flex={1} paddingHorizontal={20} pb={32}>
+      <VStack flex={1}>
         <Image
           source={BackgroundImg}
+          w='$full'
+          h={624}
           defaultSource={BackgroundImg}
-          alt='Imagem Background'
-          resizeMode='contain'
+          alt='Pessoas treinando'
           position='absolute'
         />
 
-        <Center my='$24'>
-          <LogoSVG />
-          
-          <Text color='$trueGray100' fontSize={'$sm'}>
-            Treine sua mente e seu corpo
-          </Text>
-        </Center>
+        <VStack flex={1} px='$10' pb={'$16'}>
+          <Center my='$24'>
+            <LogoSVG />
+            
+            <Text color='$gray100' fontSize={'$sm'}>
+              Treine sua mente e seu corpo
+            </Text>
+          </Center>
 
-        <Center>
-          <Heading color='$trueGray100' fontSize={'$xl'} mb={6} fontFamily='$heading'>
-            Acesse sua conta
-          </Heading>
+          <Center gap={'$2'}>
+            <Heading color='$gray100' fontSize={'$xl'} mb={6} fontFamily='$heading'>
+              Acesse sua conta
+            </Heading>
 
-          <Input
-            placeHolder='E-mail'
-            keyboardType='email-address'
-          >
-          </Input>
-          <Input
-            placeHolder='Senha'
-            secureTextEntry={true}
-          >
-          </Input>
+            <Input
+              placeholder='E-mail'
+              keyboardType='email-address'
+              autoCapitalize='none'
+            />
+            <Input
+              placeholder='Senha'
+              secureTextEntry
+            />
 
-          <Button
-            title='Acessar'
-          ></Button>
-        </Center>
+            <Button title='Acessar'/>
+          </Center>
 
-        <Center mt={124}>
-          <Text color='$trueGray100' fontSize={'$sm'} fontFamily='$body'>
-            Ainda não tem acesso?
-          </Text>
+          <Center flex={1} justifyContent='flex-end' mt='$4'>
+            <Text color='$gray100' fontSize='$sm' fontFamily='$body'>
+              Ainda não tem acesso?
+            </Text>
 
-          <Button
-            title='Criar conta'
-            variant='outline'
-            onPress={handleNewAccount}
-          >
-          </Button>
-        </Center>
+            <Button
+              title='Criar conta'
+              variant='outline'
+              onPress={handleNewAccount}
+            />
+          </Center>
+        </VStack>
       </VStack>
     </ScrollView>
   );

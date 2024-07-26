@@ -1,6 +1,5 @@
-import { Center, Heading, ScrollView, Text, VStack } from '@gluestack-ui/themed';
+import { Center, Heading, ScrollView, Text, VStack, Image } from '@gluestack-ui/themed';
 import BackgroundImg from '@assets/background2x.png';
-import { Image } from 'react-native';
 import LogoSVG from '@assets/logo.svg';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
@@ -15,51 +14,52 @@ export function SingUp(){
 
   return(
     <ScrollView contentContainerStyle={{ flexGrow:1 }} showsVerticalScrollIndicator={false}>
-      <VStack flex={1} paddingHorizontal={20} pb={32}>
+      <VStack flex={1}>
         <Image
           source={BackgroundImg}
+          w='$full'
+          h={624}
           defaultSource={BackgroundImg}
-          alt='Imagem Background'
-          resizeMode='contain'
+          alt='Pessoas treinando'
           position='absolute'
         />
 
-        <Center my='$24'>
-          <LogoSVG />
-          
-          <Text color='$trueGray100' fontSize={'$sm'}>
-            Treine sua mente e seu corpo
-          </Text>
-        </Center>
+        <VStack flex={1} px='$10' pb={'$16'}>
+          <Center my='$24'>
+            <LogoSVG />
+            
+            <Text color='$gray100' fontSize={'$sm'}>
+              Treine sua mente e seu corpo
+            </Text>
+          </Center>
 
-        <Center>
-          <Heading color='$trueGray100' fontSize={'$xl'} mb={6} fontFamily='$heading'>
-            Crie sua conta
-          </Heading>
+          <Center flex={1} gap={'$2'}>
+            <Heading color='$gray100' fontSize={'$xl'} mb={6} fontFamily='$heading'>
+              Acesse sua conta
+            </Heading>
 
-          <Input
-            placeHolder='Nome'
-          />
-          <Input
-            placeHolder='E-mail'
-            keyboardType='email-address'
-          />
-          <Input
-            placeHolder='Senha'
-            secureTextEntry={true}
-          />
+            <Input
+              placeholder='Nome'
+            />
+            <Input
+              placeholder='E-mail'
+              keyboardType='email-address'
+              autoCapitalize='none'
+            />
+            <Input
+              placeholder='Senha'
+              secureTextEntry
+            />
+
+            <Button title='Criar e acessar'/>
+          </Center>
 
           <Button
-            title='Criar e acessar'
-          ></Button>
-        </Center>
-
-        <Button
-          title='Voltar para o login'
-          variant='outline'
-          mt={124}
-          onPress={handleGoBack}
-        />
+            title='Voltar para o login'
+            variant='outline'
+            onPress={handleGoBack}
+          />
+        </VStack>
       </VStack>
     </ScrollView>
   );

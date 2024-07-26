@@ -1,36 +1,26 @@
 import { Input as GluestackInput, InputField } from "@gluestack-ui/themed";
-import { KeyboardTypeOptions } from "react-native";
+import { ComponentProps } from "react";
 
-type Props = {
-  placeHolder:string;
-  keyboardType?:KeyboardTypeOptions;
-  secureTextEntry?:boolean;
-}
+type Props = ComponentProps<typeof InputField>
 
-export function Input({placeHolder, keyboardType='default', secureTextEntry=false}:Props){
+export function Input({...rest}:Props){
   return (
     <GluestackInput
-      bg="$trueGray700"
-      h={52}
-      px={4}
-      borderWidth={0}
-      variant="outline"
-      size="md"
-      mb={10}
-      $focus-borderColor="$green500"
-      $focus-borderWidth={1}
-      isDisabled={false}
-      isInvalid={false}
-      isReadOnly={false}
+      bg="$gray700"
+      h="$14"
+      px="$4"
+      borderWidth="$0"
+      borderRadius="$md"
+      $focus={{
+        borderWidth: 1,
+        borderColor:"$green500"
+      }}
     >
       <InputField
-        placeholder={placeHolder}
-        keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry}
-        placeholderTextColor={"$trueGray300"}
         color="$white"
-        fontSize={"$md"}
         fontFamily="$body"
+        placeholderTextColor={"$gray300"}
+        {...rest}
       />
     </GluestackInput>
   );
