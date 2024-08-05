@@ -1,11 +1,62 @@
+import { useState } from "react";
+import { ScrollView, TouchableOpacity } from "react-native";
+
+import { Center, Heading, Text, useToast, VStack } from "@gluestack-ui/themed";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from 'expo-file-system';
+
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
-import { Center, Heading, Text, VStack } from "@gluestack-ui/themed";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ToastMessagem } from "@components/ToastMessage";
 
 export function Profile() {
+  const [userPhoto, setUserPhoto] = useState('https://github.com/pabriciosam.png')
+  const toast = useToast()
+
+  async function handleUserPhotoSelect() {
+    try {
+      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true
+      });
+
+      if (photoSelected.canceled)
+        return;
+
+      const photoURI = photoSelected.assets[0].uri;
+
+      if (photoURI) {
+        const photoInfo = (await FileSystem.getInfoAsync(photoURI)) as {
+          size: number
+        }
+
+        if (photoInfo.size && (photoInfo.size / 1024 / 1024 > 5)) {
+          return toast.show({
+            placement: "top",
+            render: ({ id }) => (
+              <ToastMessagem
+                id={id}
+                title="Imagem grande"
+                description="Esta imagem é muito grande. Escolha uma de até 5Mb."
+                action="error"
+                onClose={() => toast.close(id)} />
+            )
+          });
+        }
+      }
+
+      setUserPhoto(photoURI);
+    }
+    catch (erro) {
+
+    }
+  }
+
+
   return (
     <VStack flex={1}>
       <ScreenHeader title="Perfil" />
@@ -14,11 +65,11 @@ export function Profile() {
         <Center mt="$6" px="$10">
           <UserPhoto
             alt="Foto do usuário"
-            source={{ uri: "https:github.com/pabriciosam.png" }}
+            source={{ uri: userPhoto }}
             size="xl"
           />
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleUserPhotoSelect}>
             <Text
               color="$green500"
               fontFamily="$heading"
