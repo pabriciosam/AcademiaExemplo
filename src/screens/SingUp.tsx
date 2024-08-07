@@ -1,19 +1,53 @@
+import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup'
+
 import { Center, Heading, ScrollView, Text, VStack, Image } from '@gluestack-ui/themed';
+
 import BackgroundImg from '@assets/background2x.png';
 import LogoSVG from '@assets/logo.svg';
+
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
-import { useNavigation } from '@react-navigation/native';
 
-export function SingUp(){
+type FormDataProps = {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+const singUpSchema = yup.object({
+  name: yup.string().required("Informe o nome!"),
+  email: yup.string().required("Informe o e-mail!").email("E-mail inválido!"),
+  password: yup
+    .string()
+    .required("Informe a senha!")
+    .min(6, "A senha deve ter no mínimo 6 dígitos!"),
+  passwordConfirm: yup
+    .string()
+    .required("Informe a confirmação da senha!")
+    .oneOf([yup.ref("password"), ""], "As senhas precisam ser iguais!"),
+});
+
+export function SingUp() {
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
+    resolver: yupResolver(singUpSchema)
+  });
+
   const navigation = useNavigation();
 
-  function handleGoBack(){
+  function handleGoBack() {
     navigation.goBack();
-  }
+  };
 
-  return(
-    <ScrollView contentContainerStyle={{ flexGrow:1 }} showsVerticalScrollIndicator={false}>
+  function handleSignUp({ name, email, password, passwordConfirm }: FormDataProps) {
+    console.log({ name, email, password, passwordConfirm })
+  };
+
+  return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
       <VStack flex={1}>
         <Image
           source={BackgroundImg}
@@ -27,7 +61,7 @@ export function SingUp(){
         <VStack flex={1} px='$10' pb={'$16'}>
           <Center my='$24'>
             <LogoSVG />
-            
+
             <Text color='$gray100' fontSize={'$sm'}>
               Treine sua mente e seu corpo
             </Text>
@@ -38,20 +72,68 @@ export function SingUp(){
               Acesse sua conta
             </Heading>
 
-            <Input
-              placeholder='Nome'
-            />
-            <Input
-              placeholder='E-mail'
-              keyboardType='email-address'
-              autoCapitalize='none'
-            />
-            <Input
-              placeholder='Senha'
-              secureTextEntry
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  placeholder='Nome'
+                  onChangeText={onChange}
+                  value={value}
+                  erroMessage={errors.name?.message}
+                />
+              )}
             />
 
-            <Button title='Criar e acessar'/>
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  placeholder='E-mail'
+                  keyboardType='email-address'
+                  autoCapitalize='none'
+                  onChangeText={onChange}
+                  value={value}
+                  erroMessage={errors.email?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  placeholder='Senha'
+                  secureTextEntry
+                  onChangeText={onChange}
+                  value={value}
+                  erroMessage={errors.password?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="passwordConfirm"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  placeholder='Confirme a senha'
+                  secureTextEntry
+                  onChangeText={onChange}
+                  value={value}
+                  onSubmitEditing={handleSubmit(handleSignUp)}
+                  returnKeyType='send'
+                  erroMessage={errors.passwordConfirm?.message}
+                />
+              )}
+            />
+
+            <Button
+              title='Criar e acessar'
+              onPress={handleSubmit(handleSignUp)}
+            />
           </Center>
 
           <Button
