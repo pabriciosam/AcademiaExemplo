@@ -43,7 +43,14 @@ export function SingUp() {
   };
 
   function handleSignUp({ name, email, password, passwordConfirm }: FormDataProps) {
-    console.log({ name, email, password, passwordConfirm })
+    fetch('http://192.168.15.8:3333/users', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password })
+    });
   };
 
   return (
